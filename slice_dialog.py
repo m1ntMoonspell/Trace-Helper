@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import (QLineEdit,QDialog,QPushButton,
-                               QApplication,QVBoxLayout,QMessageBox,
+                               QApplication,QVBoxLayout,
                                QHBoxLayout,QLabel)
 from PySide6.QtGui import QGuiApplication 
 
@@ -29,11 +29,11 @@ class SliceDia(QDialog):
         try:
             str1,number,title,link = text.split(" ")
         except ValueError:
-            self.status.setText("Failed")
+            self.status.setText("<p style='color:red;'>Failed</p>")
         else:
             cb = QGuiApplication.clipboard()
             cb.setText(link)
-            self.status.setText("Done")
+            self.status.setText("<p style='color:green;'>Success</p>")
 
 if __name__ == "__main__":
     app = QApplication()
