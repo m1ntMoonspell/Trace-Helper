@@ -2,14 +2,17 @@ from PySide6.QtWidgets import (QTableWidget,QPushButton)
 from PySide6.QtGui import QGuiApplication
 
 class Sheet(QTableWidget):
-    def __init__(self,data):
+    def __init__(self,data,region):
         super().__init__()
         self.key_list = self.get_key_list(data)
         self.setRowCount(len(self.key_list))
         self.setColumnCount(4)
         self.setHorizontalHeaderLabels(["ID","所属系统","负责程序","负责qa"])
-        self.fill_the_table(data)
+        self.fill_the_table(data,region)
         self.setWindowTitle("Trace Helper")
+        self.resize(750,400)
+        self.setColumnWidth(0,300)
+        self.setColumnWidth(1,150)
         
 
     def get_key_list(self,data):
@@ -18,7 +21,7 @@ class Sheet(QTableWidget):
             key_list.append(k)
         return key_list
     
-    def fill_the_table(self,data):
+    def fill_the_table(self,data,region):
         index_for_row = 0
         index_for_column = 0
         for k,v in data.items():
@@ -27,8 +30,9 @@ class Sheet(QTableWidget):
             key_button.clicked.connect(lambda checked,
                                        t=key_content:self.toclip(t))
             title_button = QPushButton(f"{v[1]}")
+            title_content = f"{region}{title_button.text()}"
             title_button.clicked.connect(lambda checked,
-                                       t=title_button.text():self.toclip(t))
+                                       t=title_content:self.toclip(t))
             code_button = QPushButton(f"{v[2]}")
             code_button.clicked.connect(lambda checked,
                                        t=code_button.text():self.toclip(t))
