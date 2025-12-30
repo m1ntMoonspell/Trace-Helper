@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (QPushButton,QFileDialog,
 import csv,os
 from pathlib import Path
 from slice_dialog import SliceDia
+from sheet_dialog import Sheet
 
 
 class MyWindow(QDialog):
@@ -36,6 +37,8 @@ class MyWindow(QDialog):
         suffix = os.path.splitext(fileName)[1]
         if fileName and suffix == ".csv":
             self.get_data(fileName)
+            self.sheet = Sheet(self.get_data(fileName))
+            self.sheet.show()
         elif fileName and suffix != ".csv":
             QMessageBox.critical(self,"Error","please choose trace sheet")
         else:
@@ -73,7 +76,7 @@ class MyWindow(QDialog):
         for k,v in ID_dict.copy().items():
             if not v[1] or not v[2] or not v[3]:
                 del ID_dict[k]
-
+        return  ID_dict
 if __name__ == "__main__":
     app = QApplication()
     window = MyWindow()
